@@ -63,6 +63,7 @@
       </div>
       <div class="values">
         <p class="value">{{ signal.buyPrice | fillVoid }}</p>
+        <span class="trade-against">{{ signal.coinAgainst }}</span>
       </div>
     </div>
 
@@ -73,6 +74,7 @@
       </div>
       <div class="values">
         <p class="value">{{ signal.stopLoss | fillVoid }}</p>
+        <span class="trade-against">{{ signal.coinAgainst }}</span>
       </div>
     </div>
 
@@ -87,6 +89,7 @@
             {{ target | fillVoid }}
           </span>
         </p>
+        <span class="trade-against">{{ signal.coinAgainst }}</span>
       </div>
     </div>
 
@@ -193,6 +196,9 @@ export default {
     margin-left: 1rem;
   }
 }
+.trade-against {
+  margin-left: .4rem;
+}
 .comma:not(:last-child):after {
     content: "/";
 }
@@ -204,8 +210,8 @@ export default {
   .info {
     justify-content: center;
     .info-component {
-      margin: 0 .2rem;
-      padding: .55rem .7em;
+      margin: 0 .15rem;
+      padding: .35rem .5em;
       font-size: .7rem;
     }
   }
@@ -213,9 +219,10 @@ export default {
     font-size: .9rem;
   }
   .core-label {
-    min-width: 5.3rem;
+    width: 5.1rem;
     .task {
       font-size: .7rem;
+      padding: .5rem .2rem;
     }
   }
 }
