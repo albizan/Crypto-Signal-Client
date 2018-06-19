@@ -48,7 +48,7 @@
       <chart
         :identifier="chartId"
         :fsym="signal.ticker.toUpperCase()"
-        :tsym="signal.coinAgainst === 'Satoshi' ? 'BTC' : signal.coinAgainst"
+        :tsym="signal.coinAgainst"
         :buyPrice="signal.buyPrice">
       </chart>
 
