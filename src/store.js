@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
 
-const uri = 'https://crypto-signals-app.herokuapp.com/api/';
+const uri = 'https://crypto-signals-app.herokuapp.com/api';
 
 Vue.use(Vuex);
 
@@ -78,7 +78,7 @@ export default new Vuex.Store({
     },
     SEARCH_EXCHANGE: ({ commit, state }, payload) => {
       const { allSignals } = state;
-      const ex = payload.exchange;
+      const ex = payload.exchange.toLowerCase();
       const newSignals = allSignals.filter(signal => signal.exchanges.includes(ex));
       if (newSignals.length > 0) {
         commit('SET_SIGNAL_LIST', newSignals);
