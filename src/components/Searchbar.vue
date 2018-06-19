@@ -13,7 +13,7 @@
             autocomplete="off"
             type="text"
             id="search"
-            placeholder="Coin..."
+            placeholder="Coin"
           />
         </div>
       </div>
@@ -28,7 +28,7 @@
             autocomplete="off"
             type="text"
             id="search"
-            placeholder="Exchange..."
+            placeholder="Exchange"
           />
         </div>
       </div>
@@ -79,7 +79,6 @@ export default {
   margin-bottom: 5rem;
 }
 .input-container {
-  background-color: red;
   background: #2b303b;
   width: 100%;
   max-width: 36rem;
@@ -152,7 +151,31 @@ export default {
     width: 2rem;
   }
   .column {
-    padding: .5rem .2rem;
+    padding: .4rem .25rem;
+  }
+  .input-container {
+    border-radius: .6rem;
+    input#search {
+      border-radius: .6rem;
+      padding-left: .4rem;
+      font-size: 1.1rem;
+      -webkit-transition: all .55s ease;
+      -moz-transition: all .55s ease;
+      -ms-transition: all .55s ease;
+      -o-transition: all .55s ease;
+      transition: all .55s ease;
+    }
+    input#search::-webkit-input-placeholder {
+      font-size: 1.1rem;
+    }
+    input#search:-moz-placeholder {
+      /* Firefox 18- */
+      font-size: 1.1rem;
+    }
+    input#search::-moz-placeholder {
+      /* Firefox 19+ */
+      font-size: 1.1rem;
+    }
   }
 }
 </style>
