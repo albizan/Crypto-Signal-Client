@@ -57,6 +57,7 @@ export default {
         .then((res) => {
           let data;
           if (isSatoshi) {
+            // Get satoshi value of charts data
             data = res.data.Data.map(price => (((price.high + price.low) / 2) * 100000000));
           } else {
             data = res.data.Data.map(price => (price.high + price.low) / 2);
