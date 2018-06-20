@@ -1,8 +1,10 @@
 <template>
   <div>
     <div class="chart-info">
-      <p class="has-text-centered value">{{currentValue}} {{tsym}}</p>
-      <p class="has-text-centered diff" v-bind:class="{positive: isPositive }">{{diff}} %</p>
+      <p class="has-text-centered value">Now: {{currentValue}} {{tsym}}</p>
+      <p class="has-text-centered diff" v-bind:class="{positive: isPositive }">
+        From Signal: {{diff}} %
+      </p>
     </div>
     <div class="chart-container" v-if="displayChart">
       <canvas v-bind:id="customId">
@@ -46,20 +48,26 @@ export default {
     getChartData() {
       const self = this;
       const f = this.fsym;
+      const isSatoshi = (this.tsym === 'Satoshi');
       const t = this.tsym === 'Satoshi' ? 'BTC' : this.tsym;
-      const h = 96; // a week;
+      const h = 168; // number oh hours in a week;
       const url = `https://min-api.cryptocompare.com/data/histohour?fsym=${f}&tsym=${t}&limit=${h}`;
       axios
         .get(url)
         .then((res) => {
-          const data = res.data.Data.map(price => price.low);
-          if (data.length <= 0) {
+          let data;
+          if (isSatoshi) {
+            data = res.data.Data.map(price => (((price.high + price.low) / 2) * 100000000));
+          } else {
+            data = res.data.Data.map(price => (price.high + price.low) / 2);
+          }
+          if (data.length <= 0 /* || isSatoshi */) {
             self.displayChart = false;
             return;
           }
           self.drawChart(data);
         })
-        .catch();
+        .catch(err => console.log(err));
     },
     drawChart(data) {
       const chart = document.getElementById(this.customId).getContext('2d');
@@ -145,14 +153,24 @@ export default {
     getCoinStats() {
       const self = this;
       const f = this.fsym;
-      const t = this.tsym;
+      let t = this.tsym;
+      let isSatoshi = false;
+      const satMultiplier = 100000000; // one hunder millions
+      if (t === 'Satoshi') {
+        isSatoshi = true;
+        t = 'BTC';
+      }
       const url = `https://min-api.cryptocompare.com/data/price?fsym=${f}&tsyms=${t}`;
       axios
         .get(url)
         .then((res) => {
           const priceObj = res.data;
           // eslint-disable-next-line
-          self.currentValue = Object.values(priceObj)[0];
+          if(isSatoshi) {
+            self.currentValue = (Object.values(priceObj)[0] * satMultiplier).toFixed(0);
+          } else {
+            self.currentValue = Object.values(priceObj)[0];
+          }
         })
         .catch();
     },
@@ -176,6 +194,7 @@ export default {
 }
 .chart-info {
   background-color: #2d3436;
+  padding: 1rem 0;
   .value {
     font-size: 1.5rem;
     color: $belize;
